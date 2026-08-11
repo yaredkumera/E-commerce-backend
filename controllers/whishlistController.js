@@ -1,4 +1,3 @@
-// controllers/wishlistController.js
 import Wishlist from "../models/wishlistModel.js"
 import Product from "../models/productModel.js"
 

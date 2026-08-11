@@ -43,11 +43,9 @@ async function createOrder(req, res) {
     })
 
     for (const item of cartItems) {
-        
       await Product.findByIdAndUpdate(item.product._id, {
         $inc: { stock: -item.quantity },
       })
-
     }
 
     await Cart.deleteMany({ user: req.user.id })
@@ -67,4 +65,36 @@ async function getMyOrders(req, res) {
   }
 }
 
-export { createOrder, getMyOrders }
+async function getAllOrders(req, res) {
+  try {
+    const orders = await Order.find()
+      .populate('user', 'fullName email')
+      .sort({ createdAt: -1 })
+
+    res.status(200).json({ success: true, message: "All orders fetched successfully", data: orders })
+  } catch (err) {
+    res.status(500).json({ success: false, message: "something went wrong" })
+  }
+}
+
+async function updateOrderStatus(req, res) {
+  try {
+    const { status } = req.body
+
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    )
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: "order not found" })
+    }
+
+    res.status(200).json({ success: true, message: "Order status updated", data: order })
+  } catch (err) {
+    res.status(400).json({ success: false, message: "something went wrong" })
+  }
+}
+
+export { createOrder, getMyOrders, getAllOrders, updateOrderStatus }

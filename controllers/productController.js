@@ -1,4 +1,6 @@
 import Product from "../models/productModel.js"
+import Wishlist from "../models/wishlistModel.js"
+import Cart from "../models/cartModel.js"
 async function getProducts(req, res) {
   try {
     const products = await Product.find()
@@ -52,6 +54,8 @@ async function updateProduct(req, res) {
   }
 }
 
+
+
 async function deleteProduct(req, res) {
   try {
     const id = req.params.id
@@ -60,6 +64,9 @@ async function deleteProduct(req, res) {
     if (!deleted) {
       return res.status(404).json({ success: false, message: "product not found" })
     }
+
+    await Wishlist.deleteMany({ product: id })
+    await Cart.deleteMany({ product: id })
 
     res.status(200).json({
       success: true,
