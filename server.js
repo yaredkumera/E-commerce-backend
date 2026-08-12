@@ -9,6 +9,7 @@ import productRouter from "./routes/productRouter.js"
 import WhislistRouter from "./routes/wishlistRouter.js"
 import orderRouter from "./routes/orderRouter.js"
 import userRouter from "./routes/userRouter.js"
+import uploadRouter from "./routes/uploadRouter.js"
 dotenv.config();
 connectDB();
 
@@ -17,6 +18,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api', uploadRouter);
 app.use('/api', productRouter);
 app.use('/api', sinupRouter);
 app.use('/api',loginRouter)
