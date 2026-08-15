@@ -1,6 +1,4 @@
-
 import mongoose from 'mongoose'
-
 const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -8,8 +6,8 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   items: [
-    {
-      product: {
+    {  
+      product: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         required: true,
@@ -18,13 +16,13 @@ const orderSchema = new mongoose.Schema({
       price: { type: Number, required: true },
       quantity: { type: Number, required: true },
     },
-  ],
+  ] ,
   firstName: { type: String, required: true },
   streetAddress: { type: String, required: true },
   townCity: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   email: { type: String, required: true },
-  paymentMethod: {
+  paymentMethod: { 
     type: String,
     enum: ['chapa', 'cod'],
     default: 'cod',
@@ -34,17 +32,17 @@ const orderSchema = new mongoose.Schema({
     enum: ['pending', 'paid', 'failed', 'refunded'],
     default: 'pending',
   },
-  tx_ref: {
+  tx_ref: { 
     type: String,
     unique: true,
     sparse: true,
   },
   total: { type: Number, required: true },
-  status: {
+  status:  {
     type: String,
     enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
     default: 'pending',
-  },
+  }, 
 }, { timestamps: true })
 
 const Order = mongoose.model('Order', orderSchema)

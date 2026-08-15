@@ -2,7 +2,7 @@ import Order from "../models/orderModel.js"
 import Cart from "../models/cartModel.js"
 import Product from "../models/productModel.js"
 
-async function createOrder(req, res) {
+async function createOrder(req, res) { 
   try { 
     const { firstName, streetAddress, townCity, phoneNumber, email, paymentMethod } = req.body
 
