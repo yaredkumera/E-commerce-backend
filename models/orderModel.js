@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose'
 
 const orderSchema = new mongoose.Schema({
@@ -25,16 +26,27 @@ const orderSchema = new mongoose.Schema({
   email: { type: String, required: true },
   paymentMethod: {
     type: String,
-    enum: ['bank', 'cod'],
+    enum: ['chapa', 'cod'],
     default: 'cod',
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'paid', 'failed', 'refunded'],
+    default: 'pending',
+  },
+  tx_ref: {
+    type: String,
+    unique: true,
+    sparse: true,
   },
   total: { type: Number, required: true },
   status: {
     type: String,
-    enum: ['pending', 'delivered', 'cancelled'],
+    enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
     default: 'pending',
   },
 }, { timestamps: true })
 
 const Order = mongoose.model('Order', orderSchema)
 export default Order
+

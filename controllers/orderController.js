@@ -3,7 +3,7 @@ import Cart from "../models/cartModel.js"
 import Product from "../models/productModel.js"
 
 async function createOrder(req, res) {
-  try {
+  try { 
     const { firstName, streetAddress, townCity, phoneNumber, email, paymentMethod } = req.body
 
     const cartItems = await Cart.find({ user: req.user.id }).populate('product')
@@ -42,18 +42,25 @@ async function createOrder(req, res) {
       total,
     })
 
-    for (const item of cartItems) {
-      await Product.findByIdAndUpdate(item.product._id, {
-        $inc: { stock: -item.quantity },
-      })
+   
+    if (paymentMethod === "cod") {
+      for (const item of cartItems) {
+        await Product.findByIdAndUpdate(item.product._id, {
+          $inc: { stock: -item.quantity },
+        })
+      }
+      await Cart.deleteMany({ user: req.user.id })
     }
-
-    await Cart.deleteMany({ user: req.user.id })
 
     res.status(201).json({ success: true, message: "Order placed successfully", data: order })
   } catch (err) {
-    res.status(400).json({ success: false, message: "something went wrong" })
-  }
+  console.error("CREATE ORDER ERROR:", err);
+
+  res.status(400).json({
+    success: false,
+    message: err.message || "Could not create order",
+  });
+}
 }
 
 async function getMyOrders(req, res) {
@@ -62,6 +69,18 @@ async function getMyOrders(req, res) {
     res.status(200).json({ success: true, message: "Orders fetched successfully", data: orders })
   } catch (err) {
     res.status(500).json({ success: false, message: "something went wrong" })
+  }
+}
+
+async function getOneOrder(req, res) {
+  try {
+    const order = await Order.findOne({ _id: req.params.id, user: req.user.id })
+    if (!order) {
+      return res.status(404).json({ success: false, message: "order not found" })
+    }
+    res.status(200).json({ success: true, message: "Order fetched successfully", data: order })
+  } catch (err) {
+    res.status(400).json({ success: false, message: "something went wrong" })
   }
 }
 
@@ -97,4 +116,4 @@ async function updateOrderStatus(req, res) {
   }
 }
 
-export { createOrder, getMyOrders, getAllOrders, updateOrderStatus }
+export { createOrder, getMyOrders, getOneOrder, getAllOrders, updateOrderStatus }

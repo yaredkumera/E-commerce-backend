@@ -10,6 +10,9 @@ import WhislistRouter from "./routes/wishlistRouter.js"
 import orderRouter from "./routes/orderRouter.js"
 import userRouter from "./routes/userRouter.js"
 import uploadRouter from "./routes/uploadRouter.js"
+import chapaRouter from "./routes/chapaRouter.js"
+import googleAuthRouter from "./routes/googleAuthRouter.js";
+
 dotenv.config();
 connectDB();
 
@@ -17,7 +20,17 @@ connectDB();
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = Buffer.from(buf);
+    },
+  })
+);
+
+
+app.use("/api/auth", googleAuthRouter);
+app.use('/api', chapaRouter);
 app.use('/api', uploadRouter);
 app.use('/api', productRouter);
 app.use('/api', sinupRouter);
