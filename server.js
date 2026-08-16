@@ -12,7 +12,7 @@ import userRouter from "./routes/userRouter.js"
 import uploadRouter from "./routes/uploadRouter.js"
 import chapaRouter from "./routes/chapaRouter.js"
 import googleAuthRouter from "./routes/googleAuthRouter.js";
-
+import passwordResetRouter from "./routes/passwordResetRouter.js"
 dotenv.config();
 connectDB();
 
@@ -28,6 +28,7 @@ app.use(
   })
 );
 
+app.use('/api', passwordResetRouter);
 
 app.use("/api/auth", googleAuthRouter);
 app.use('/api', chapaRouter);

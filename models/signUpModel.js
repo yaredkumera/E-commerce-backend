@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const signupSchema = new mongoose.Schema({
     fullName: {
@@ -33,6 +34,13 @@ const signupSchema = new mongoose.Schema({
         type: String,
     },
 
+resetPasswordToken: {
+  type: String,
+},
+
+resetPasswordExpires: {
+  type: Date,
+},
 }, { timestamps: true });
 
 const SignupModel = mongoose.model("User", signupSchema);

@@ -88,7 +88,6 @@ async function googleLogin(req, res) {
             }
         );
 
-
         return res.status(200).json({
             success: true,
             message: "Google login successful",
