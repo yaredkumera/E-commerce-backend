@@ -4,18 +4,12 @@ import SignupModel from '../models/signUpModel.js'
 import bcrypt from "bcryptjs"
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // Must be false for port 587
-  requireTLS: true, // Forces TLS upgrade
+  service: "gmail",
   auth: {
     user: process.env.APP_GMAIL,
     pass: process.env.APP_PASSWORD?.replace(/\s+/g, ""),
   },
-  tls: {
-    rejectUnauthorized: false,
-  },
-  connectionTimeout: 15000,
+  family: 4, // Forces Nodemailer to use IPv4 instead of IPv6
 });
 
 async function ForgotPass(req, res) {

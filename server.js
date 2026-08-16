@@ -13,6 +13,8 @@ import uploadRouter from "./routes/uploadRouter.js"
 import chapaRouter from "./routes/chapaRouter.js"
 import googleAuthRouter from "./routes/googleAuthRouter.js";
 import passwordResetRouter from "./routes/passwordResetRouter.js"
+import dns from "node:dns"
+dns.setDefaultResultOrder("ipv4first")
 dotenv.config();
 connectDB();
 
