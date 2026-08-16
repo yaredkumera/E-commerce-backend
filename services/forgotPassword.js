@@ -21,13 +21,17 @@ async function ForgotPass(req, res) {
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.APP_GMAIL,
-        pass: process.env.APP_PASSWORD,
-      },
-    })
+   const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Use TLS
+  auth: {
+    user: process.env.APP_GMAIL,
+    pass: process.env.APP_PASSWORD,
+  },
+  // Prevents cloud server handshake timeouts
+  connectionTimeout: 10000, 
+});
 
     await transporter.sendMail({
       from: process.env.APP_GMAIL,
