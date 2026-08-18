@@ -75,6 +75,7 @@ export async function verifyChapaTransaction(tx_ref) {
     }
   );
 
+console.log(response.data)
   const transaction =
     response.data?.data;
 
@@ -100,13 +101,12 @@ export async function finalizePaidOrder(orderId) {
 
             const order =
                 await Order.findOne({
-                    _id: orderId,
+                    _id: orderId, 
                     paymentStatus: {
                         $ne: "paid",
                     },
                 }).session(session);
 
-            // Already processed.
             if (!order) {
                 return;
             }
@@ -134,7 +134,7 @@ export async function finalizePaidOrder(orderId) {
                         `Not enough stock for ${item.name}`
                     );
                 }
-            }
+            } 
 
 
             for (const item of order.items) {

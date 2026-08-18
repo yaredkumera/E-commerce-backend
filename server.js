@@ -13,6 +13,7 @@ import uploadRouter from "./routes/uploadRouter.js"
 import chapaRouter from "./routes/chapaRouter.js"
 import googleAuthRouter from "./routes/googleAuthRouter.js";
 import passwordResetRouter from "./routes/passwordResetRouter.js"
+import ContactsRouter from "./routes/contactsmessageRouter.js"
 import dns from "node:dns"
 dns.setDefaultResultOrder("ipv4first")
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(
 );
 
 app.use('/api', passwordResetRouter);
+app.use('/api', ContactsRouter);
 
 app.use("/api/auth", googleAuthRouter);
 app.use('/api', chapaRouter);

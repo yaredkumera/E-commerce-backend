@@ -9,8 +9,9 @@ router.use(AuthMiddleware)
 
 router.post("/orders", createOrder)
 router.get("/orders", getMyOrders)
-router.get("/orders/:id", getOneOrder)
 router.get("/orders/all", AdminMiddleware, getAllOrders)
+
+router.get("/orders/:id", getOneOrder)
 router.put("/orders/:id/status", AdminMiddleware, updateOrderStatus)
 
 export default router

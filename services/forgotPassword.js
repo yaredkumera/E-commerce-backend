@@ -24,9 +24,8 @@ async function ForgotPass(req, res) {
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
 
-    // Resend sends via HTTP API, bypassing all Render SMTP port blocks
     await resend.emails.send({
-      from: 'onboarding@resend.dev', // Default testing domain provided by Resend
+      from: 'onboarding@resend.dev', 
       to: user.email,
       subject: 'Password Reset - Exclusive',
       html: `<p>Click below to reset your password. This link expires in 30 minutes.</p>
