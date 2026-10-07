@@ -8,7 +8,6 @@ async function signup(req, res) {
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: 'All fields are required' });
     }
-
     const existingUser = await signUpModel.findOne({ email });
     if (existingUser) { 
       return res.status(400).json({  message: 'Email already registered' });
@@ -21,7 +20,8 @@ async function signup(req, res) {
       password: hashedPassword,
     });
 const token=jwt.sign(
-  {_id:userInfo._id,
+
+  {id:userInfo._id,
     fullName,
     email,
   },process.env.JWT_SECRET,

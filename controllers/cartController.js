@@ -1,16 +1,16 @@
 import Cart from "../models/cartModel.js"
 import Product from "../models/productModel.js"
 
-async function getCarts(req, res) {
+async function getCarts(req, res) { 
   try {
     const cart = await Cart.find({ user: req.user.id }).populate('product')
     res.status(200).json({ success: true, message: "Cart fetched successfully", data: cart })
   } catch (err) {
     res.status(500).json({ success: false, message: "something went wrong" })
   }
-}
-
-async function createCart(req, res) {
+}  
+ 
+async function createCart(req, res) { 
   try {
     const { productId } = req.body
 
@@ -21,10 +21,10 @@ async function createCart(req, res) {
 
 
     const newItem = await Cart.create({ user: req.user.id, product: productId, quantity:1 })
-    const populated = await newItem.populate('product')
+    const  populated = await newItem.populate('product')
 
-    res.status(201).json({ success: true, message: "Added to cart", data: populated })
-  } catch (err) {
+    res.status(201).json({  success: true, message: "Added to cart", data: populated })
+   } catch (err) {
     res.status(400).json({ success: false, message: "something went wrong" })
   }
 }
@@ -44,7 +44,7 @@ async function updateCart(req, res) {
         message: `Only ${item.product.stock} in stock`,
       })
     }
-
+     
     item.quantity = req.body.quantity
     const updated = await item.save()
 
