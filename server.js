@@ -1,8 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-
-// import helmet from "helmet"
+import NotFound from './MiddleWare/notFound.js';
 import connectDB from './config/db.js';
  import sinupRouter from './routes/SignUpRouter.js'
 import loginRouter from './routes/LoginRouter.js'
@@ -52,6 +51,6 @@ app.use('/api',cartRouter)
 app.use('/api',WhislistRouter)
 app.use("/api",orderRouter)
 app.use("/api",userRouter)
-
+app.use(NotFound)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
