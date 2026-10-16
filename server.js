@@ -1,9 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import ErrorHandler from './MiddleWare/errorHandler.js';
 import cors from 'cors';
 import NotFound from './MiddleWare/notFound.js';
 import connectDB from './config/db.js';
- import sinupRouter from './routes/SignUpRouter.js'
+import sinupRouter from './routes/SignUpRouter.js'
 import loginRouter from './routes/LoginRouter.js'
 import cartRouter from './routes/CartRouter.js'
 import productRouter from "./routes/productRouter.js"
@@ -51,6 +52,11 @@ app.use('/api',cartRouter)
 app.use('/api',WhislistRouter)
 app.use("/api",orderRouter)
 app.use("/api",userRouter)
+app.get("/api/test-error", () => {
+  throw new ApiError(418, "test error")
+})
 app.use(NotFound)
+app.use(ErrorHandler)
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
